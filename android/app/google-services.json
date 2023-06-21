@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "395447706273",
+    "project_id": "funforkids-9cd3c",
+    "storage_bucket": "funforkids-9cd3c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395447706273:android:136874f945f099e3a106e0",
+        "android_client_info": {
+          "package_name": "fun.for.kids"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "395447706273-ce2m514s7qq57f998k5p6gbdckaavh9b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2-VZpHofQv9KznV-qheSfwWeiTZivwqw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "395447706273-ce2m514s7qq57f998k5p6gbdckaavh9b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

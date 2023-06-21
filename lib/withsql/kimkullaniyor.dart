@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:funforkids/anasayfa.dart';
-import 'package:funforkids/stats.dart';
+import 'package:funforkids/pages/anasayfa.dart';
+import 'package:funforkids/withsql/stats.dart';
 
 class KimKullaniyor extends StatelessWidget {
   @override

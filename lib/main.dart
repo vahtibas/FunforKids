@@ -1,62 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:funforkids/kimkullaniyor.dart';
-import 'package:funforkids/uyeol.dart';
+import 'package:funforkids/withsql/kimkullaniyor.dart';
+import 'package:funforkids/withsql/uyeol.dart';
+import 'package:funforkids/database/database_helper.dart';
 
 void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: Uyeol(),
-  ));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
-
-  @override
-  Widget build(BuildContext context) {
-    throw UnimplementedError();
-  }
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MyHomePage(title: "Ana Sayfa"),
+    ),
+  );
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title});
-
   final String title;
+
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String eAd = 'Ahmet';
-  String cAd = 'ali';
-  String ePosta = 'aaa@hotmail.com';
-  int sifre = 123456;
-
-  void eIsimKaydet(String text) {
-    setState(() {
-      eAd = text;
-    });
-  }
-
-  void cIsimKaydet(String text) {
-    setState(() {
-      cAd = text;
-    });
-  }
-
-  void epostaKaydet(String text) {
-    setState(() {
-      ePosta = text;
-    });
-  }
-
-  void sifreKaydet(int value) {
-    setState(() {
-      sifre = value;
-    });
-  }
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  DatabaseHelper _databaseHelper = DatabaseHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  controller: _emailController,
                   decoration: const InputDecoration(
                     hintText: 'E-mailinizi girin',
                   ),
@@ -91,35 +61,96 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: TextFormField(
+                  controller: _passwordController,
                   decoration: const InputDecoration(
                     hintText: 'Şifrenizi girin',
                   ),
                   keyboardType: TextInputType.visiblePassword,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  obscureText: true, // Şifreyi nokta şeklinde görüntüler
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => KimKullaniyor()),
-                    );
+                  onPressed: () async {
+                    String enteredEmail = _emailController.text;
+                    String enteredPassword = _passwordController.text;
+
+                    if (enteredEmail.isEmpty || enteredPassword.isEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => KimKullaniyor(),
+                        ),
+                      );
+                    } else {
+                      var userData = await _databaseHelper.getUserData();
+                      if (userData.isNotEmpty) {
+                        String storedEmail = userData['email'];
+                        String storedPassword = userData['password'];
+
+                        if (enteredEmail == storedEmail &&
+                            enteredPassword == storedPassword) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => KimKullaniyor(),
+                            ),
+                          );
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Hatalı Bilgiler'),
+                                content: const Text(
+                                    'Girdiğiniz e-posta veya şifre hatalı.'),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Tamam'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Hatalı Bilgiler'),
+                              content: const Text(
+                                  'Girdiğiniz e-posta veya şifre hatalı.'),
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Tamam'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    }
                   },
-                  child: Text("Giriş yap"),
+                  child: const Text("Giriş yap"),
                 ),
               ),
-              ElevatedButton(
+              TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Uyeol()),
+                    MaterialPageRoute(builder: (context) => UyeOlPage()),
                   );
                 },
-                child: Text("Üye ol"),
+                child: const Text("Üye olmak için tıklayın"),
               ),
             ],
           ),

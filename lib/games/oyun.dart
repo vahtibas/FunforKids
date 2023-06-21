@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'dart:math';
+
+import 'package:funforkids/pages/anasayfa.dart';
 
 void main() {
   runApp(KartEslestirmeOyunuApp());
@@ -71,25 +71,33 @@ class _KartEslestirmeOyunuState extends State<KartEslestirmeOyunu> {
           eslesmeSayisi++;
           if (eslesmeSayisi == 6) {
             showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                      title: Text('Tebrikler!'),
-                      content: Text('Oyunu tamamladınız.'),
-                      actions: <Widget>[
-                        ElevatedButton(
-                          onPressed: () {
+              context: context,
+              builder: (_) => AlertDialog(
+                title: Text('Tebrikler!'),
+                content: Text('Oyunu tamamladınız.'),
+                actions: <Widget>[
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        runApp(KartEslestirmeOyunuApp());
+                      });
+                    },
+                    child: Text('Yeniden Oyna'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Anasayfa()),
 
-                            setState(() {
-                              kartlariOlustur();
-                              eslesmeSayisi = 0;
-                              Navigator.of(context).pop();
-                            }
-                            );
-                          },
-                          child: Text('Yeniden Oyna'),
-                        )
-                      ],
-                    ));
+                      );
+                    },
+                    child: Text('Anasayfaya Dön'),
+                  ),
+                ],
+              ),
+            );
+
           }
         } else {
           Future.delayed(Duration(milliseconds: 500), () {
