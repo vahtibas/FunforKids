@@ -70,203 +70,96 @@ class _UyeOlPageState extends State<UyeOlPage> {
   }
 
   @override
-  void dispose() {
-    _ebeveynAdiController.dispose();
-    _ePostaController.dispose();
-    _cocukAdiController.dispose();
-    _sifreController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink,
         centerTitle: true,
-        title: const Text("Üye Ol"),
+        title: const Text('Üye Ol'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: SingleChildScrollView(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.deepPurple, Colors.purpleAccent],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
-            children: <Widget>[
-              SizedBox(height: 24.0),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               TextFormField(
                 controller: _ebeveynAdiController,
-                onChanged: (text) {},
                 decoration: const InputDecoration(
-                  labelText: 'Ebeveyn Adı',
-                  hintText: 'Ebeveyn Adı Gir',
+                  hintText: 'Ebeveyn Adı',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  ),
                 ),
-                keyboardType: TextInputType.name,
-                inputFormatters: [
-                  FilteringTextInputFormatter.singleLineFormatter,
-                ],
               ),
-              SizedBox(height: 16.0),
+              SizedBox(height: 10),
               TextFormField(
                 controller: _ePostaController,
                 decoration: const InputDecoration(
-                  labelText: 'E-Posta',
-                  hintText: 'E-Posta Gir',
+                  hintText: 'E-posta',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  ),
                 ),
                 keyboardType: TextInputType.emailAddress,
                 inputFormatters: [
                   FilteringTextInputFormatter.singleLineFormatter,
                 ],
               ),
-              SizedBox(height: 16.0),
+              SizedBox(height: 10),
               TextFormField(
                 controller: _cocukAdiController,
                 decoration: const InputDecoration(
-                  labelText: 'Çocuk Adı',
-                  hintText: 'Çocuk Adı Gir',
+                  hintText: 'Çocuk Adı',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  ),
                 ),
-                keyboardType: TextInputType.name,
-                inputFormatters: [
-                  FilteringTextInputFormatter.singleLineFormatter,
-                ],
               ),
-              SizedBox(height: 16.0),
+              SizedBox(height: 10),
               TextFormField(
                 controller: _sifreController,
                 decoration: const InputDecoration(
-                  labelText: 'Şifre',
-                  hintText: 'Şifre Gir',
+                  hintText: 'Şifre',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  ),
                 ),
-                keyboardType: TextInputType.visiblePassword,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
                 obscureText: true,
               ),
-              SizedBox(height: 24.0),
+              SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  _addUser().then((_) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Stats(database: _database)),
-                    );
-                  });
+                onPressed: () async {
+                  await _addUser();
+                  Navigator.pushNamed(context, '/');
                 },
-                child: const Text("ÜYE OL"),
+                child: const Text('Kayıt Ol'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pink,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
-                ),
-              ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MyHomePage(title: "anasayfa")),
-                  );
-                },
-                child: const Text("Ana Sayfaya Dön"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
+                  backgroundColor: Colors.greenAccent,
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 5,
                 ),
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class Stats extends StatefulWidget {
-  final Database database;
-
-  const Stats({Key? key, required this.database}) : super(key: key);
-
-  @override
-  State<Stats> createState() => _StatsState();
-}
-
-class _StatsState extends State<Stats> {
-  String eAd = '';
-  String cAd = '';
-  String ePosta = '';
-  String sifre = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeData();
-  }
-
-  Future<void> _initializeData() async {
-    List<Map<String, dynamic>> result = await widget.database.query('uyeler');
-    if (result.isNotEmpty) {
-      setState(() {
-        eAd = result[0]['ebeveynAdi'];
-        cAd = result[0]['cocukAdi'];
-        ePosta = result[0]['ePosta'];
-        sifre = result[0]['sifre'];
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.pink,
-        centerTitle: true,
-        title: const Text('Kullanıcı Profili'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'E-mail:',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 4),
-            Text(
-              ePosta,
-              style: const TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 16),
-            const Text(
-              'Ebeveyn Adı:',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 4),
-            Text(
-              eAd,
-              style: const TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 16),
-            const Text(
-              'Çocuk Adı:',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 4),
-            Text(
-              cAd,
-              style: const TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 16),
-            const Text(
-              'Şifre:',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 4),
-            Text(
-              sifre,
-              style: const TextStyle(fontSize: 24),
-            ),
-          ],
         ),
       ),
     );

@@ -1,179 +1,93 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:funforkids/games/word_search_screen.dart';
 import 'package:funforkids/pages/muzik.dart';
 import 'package:funforkids/games/odatopla.dart';
 import 'package:funforkids/games/oyun.dart';
 import 'package:funforkids/pages/hayvanlar.dart';
 
-class Anasayfa extends StatefulWidget {
-  const Anasayfa({Key? key}) : super(key: key);
 
-  @override
-  State<Anasayfa> createState() => _AnasayfaState();
-}
-
-class _AnasayfaState extends State<Anasayfa> {
+class Anasayfa extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          'Eğlenceli Çocuk Uygulaması',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        backgroundColor: Colors.deepPurpleAccent,
         centerTitle: true,
-        backgroundColor: Colors.pink,
-        title: Text('Anasayfa'),
+        elevation: 0,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.orange,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset('assets/manzara.jpg'),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Center(
-                      child: Text(
-                        'Öğretici Bilgi: Ormanlar, dünyadaki en büyük ağaçların ve yaban hayatının yaşadığı yerlerdir. Ormanlar, doğanın büyülü dünyasıdır ve birçok farklı canlının evi olarak bilinir. Ormanları keşfetmek, ağaçları, bitkileri, hayvanları tanımak ve doğayı korumak için önemlidir.',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.deepPurple, Colors.purpleAccent],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          Expanded(
-            flex: 1,
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Hoş Geldiniz!',
+                style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  foreground: Paint()
+                    ..shader = LinearGradient(
+                      colors: <Color>[Colors.red, Colors.yellow, Colors.green, Colors.blue],
+                    ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+                  shadows: [
+                    Shadow(
+                      blurRadius: 10.0,
+                      color: Colors.black45,
+                      offset: Offset(3.0, 3.0),
                     ),
-                    child: Center(
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MusicListPage(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                          ),
-                          child: Icon(Icons.play_arrow),
-                        ),
-                      ),
-                    ),
-                  ),
+                  ],
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Center(
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => KartEslestirmeOyunu(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                          ),
-                          child: Icon(Icons.gamepad),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.yellow,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Center(
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HayvanlarSayfasi(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.yellow,
-                          ),
-                          child: const Icon(Icons.pets),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Center(
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const RoomCleanupGame(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red,
-                          ),
-                          child: const Icon(Icons.star),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 40),
+              buildMenuButton(context, 'Hayvanları Öğren', Icons.pets_rounded, HayvanlarSayfasi(), Colors.greenAccent),
+              SizedBox(height: 20),
+              buildMenuButton(context, 'Videolar', Icons.ondemand_video_rounded, MuzikSayfasi(), Colors.orangeAccent),
+              SizedBox(height: 20),
+              buildMenuButton(context, 'Kart Eşleştirme Oyunu', Icons.videogame_asset_rounded, KartEslestirmeOyunu(), Colors.redAccent),
+              SizedBox(height: 20),
+              buildMenuButton(context, 'Yıldız Toplama Oyunu', Icons.star_border_purple500_sharp, OdaToplaApp(), Colors.blueAccent),
+              SizedBox(height: 20),
+              buildMenuButton(context, 'Kelime Bulma Oyunu', Icons.search_sharp, WordSearchScreen(), Colors.pinkAccent),
+            ],
           ),
-        ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildMenuButton(BuildContext context, String title, IconData icon, Widget routeWidget, Color color) {
+    return ElevatedButton.icon(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => routeWidget),
+        );
+      },
+      icon: Icon(icon, size: 40, color: Colors.white),
+      label: Text(
+        title,
+        style: TextStyle(fontSize: 26, color: Colors.white),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        elevation: 5,
       ),
     );
   }
